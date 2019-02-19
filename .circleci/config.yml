@@ -12,3 +12,5 @@ jobs:
           version: 18.06.0-ce
       - run: docker version
       - run: docker ps
+      - run: docker build . -t app
+      - run: docker run --rm app
