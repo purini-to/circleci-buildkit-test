@@ -11,10 +11,10 @@ jobs:
       - checkout
 #       - setup_remote_docker:
 #           version: 18.06.0-ce
-      - run: docker version
-      - run: docker ps
-      - run: docker build . -t app
-      - run: docker run --rm app
+#       - run: docker version
+#       - run: docker ps
+#       - run: docker build . -t app
+#       - run: docker run --rm app
       - run: |
           FULL_PATH=`pwd`
           CONTAINER_ID=`docker run --rm --privileged -d -v $FULL_PATH:/app -e DOCKER_BUILDKIT=1 docker:18.09-dind`
