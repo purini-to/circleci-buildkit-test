@@ -3,13 +3,12 @@ jobs:
   build:
     working_directory: /app
     environment:
-      DOCKER_BUILDKIT=1
+      DOCKER_BUILDKIT: 1
     docker:
       - image: docker:18.09.2-git
     steps:
       - checkout
       - setup_remote_docker:
-        docker_layer_caching: true 
-      
+          docker_layer_caching: true
       - run: docker version
       - run: docker ps
