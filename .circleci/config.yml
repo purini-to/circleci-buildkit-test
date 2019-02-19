@@ -26,4 +26,4 @@ jobs:
             sleep 5
           done
           docker exec -it $CONTAINER_ID docker build /app -t app
-          docker exec -it $CONTAINER_ID docker run --rm app | return true
+          docker exec -it $CONTAINER_ID docker run --rm app | return 0
