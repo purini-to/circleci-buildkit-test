@@ -2,8 +2,8 @@ version: 2
 jobs:
   build:
 #     working_directory: /app
-    environment:
-      DOCKER_BUILDKIT: 1
+#     environment:
+#       DOCKER_BUILDKIT: 1
 #     docker:
 #       - image: docker:18.09.2-dind
     machine: true
@@ -15,3 +15,15 @@ jobs:
       - run: docker ps
       - run: docker build . -t app
       - run: docker run --rm app
+      - run: |
+          FULL_PATH=`pwd`
+          CONTAINER_ID=`docker run --rm --privileged -d -v $FULL_PATH:/app -e DOCKER_BUILDKIT=1 docker:18.09-dind`
+          CONTAINER_IP=`docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' $CONTAINER_ID`
+          trap finally EXIT
+          until docker run --rm busybox nc -z -v -w30 $CONTAINER_IP 2375
+          do
+            echo "Waiting for docker ready..."
+            sleep 5
+          done
+          docker exec -it $CONTAINER_ID docker build /app -t app
+          docker exec -it $CONTAINER_ID docker run --rm app
