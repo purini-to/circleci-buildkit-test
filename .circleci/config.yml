@@ -4,8 +4,9 @@ jobs:
     working_directory: /app
     environment:
       DOCKER_BUILDKIT: 1
-    docker:
-      - image: docker:18.09.2-dind
+#     docker:
+#       - image: docker:18.09.2-dind
+    machine: true
     steps:
       - checkout
       - setup_remote_docker:
